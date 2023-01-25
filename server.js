@@ -19,16 +19,18 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-const dbUrl = 'mongodb://localhost:27017/wetube'
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/wetube'
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!'
+
 app.use(session ({
   name: 'session',
-  secret: 'thisshouldbeabettersecret!',
+  secret,
   resave: false,
   saveUninitialized : false,
   touchAfter: 24 * 60 * 60,
